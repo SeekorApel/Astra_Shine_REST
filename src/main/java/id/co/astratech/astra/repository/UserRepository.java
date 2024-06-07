@@ -1,8 +1,10 @@
 package id.co.astratech.astra.repository;
 
 import id.co.astratech.astra.model.User;
+import id.co.astratech.astra.vo.LoginVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import static id.co.astratech.astra.constant.UserConstant.*;
@@ -11,6 +13,6 @@ import static id.co.astratech.astra.constant.UserConstant.*;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = qGetLogin, nativeQuery = true)
-    User findUserByEmailAndPassword(String username, String password);
+    User findUserByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
 }
