@@ -27,5 +27,10 @@ public class UserRest {
         return userService.registerUser(user);
     }
 
+    @PostMapping("/resetPasswordByEmail")
+    public DtoResponse resetPasswordByEmail(@RequestParam("email") String email){
+        return userService.resetPasswordByEmail(email);
+    }
+
 
 }

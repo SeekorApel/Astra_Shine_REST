@@ -15,4 +15,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = qGetLogin, nativeQuery = true)
     User findUserByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
+    @Query(value = qGetEmailUser, nativeQuery = true)
+    String getExistingEmail(@Param("email") String email);
+
+    @Query(value = qGetUserByEmail, nativeQuery = true)
+    User findUserByEmail(@Param("email") String email);
+
 }
