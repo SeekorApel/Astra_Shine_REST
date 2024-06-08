@@ -28,4 +28,9 @@ public class AlamatRest {
         return alamatService.saveAlamat(alamat);
     }
 
+    @PostMapping("/deleteAlamat")
+    public DtoResponse deleteAlamat(@RequestParam("idAlamat") Integer idAlamat){
+        return alamatService.deleteAlamat(idAlamat);
+    }
+
 }
