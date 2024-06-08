@@ -11,5 +11,8 @@ public class UserConstant {
 
     public static final String qGetUserByEmail =
             "SELECT * FROM ms_user WHERE email_user = :email";
+
+    public static final String qGetUserByPassword =
+            "SELECT * FROM ms_user WHERE password_user = :password";
     
 }
