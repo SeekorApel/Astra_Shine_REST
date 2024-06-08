@@ -87,6 +87,21 @@ public class UserService {
         return new DtoResponse(200, email, "Password baru sudah dikirim ke email Anda");
     }
 
+    public DtoResponse resetPasswordByTempPassword(String oldPassword, String newPassword){
+        User userDB = userRepository.findUserByPassword(oldPassword);
+
+        if(userDB == null ){
+            return new DtoResponse(404, null, "Data User tidak di temukan");
+        }else {
+            User user = new User();
+            BeanUtils.copyProperties(userDB, user);
+            user.setPassword(newPassword);
+            userRepository.save(user);
+            return new DtoResponse(200,null ,"Sukses mengubah password anda");
+        }
+
+    }
+
     public void createEmail(String toEmail,
                           String subject,
                           String body){

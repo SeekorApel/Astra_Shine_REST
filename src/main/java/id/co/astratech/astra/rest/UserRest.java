@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserRest {
 
     @Autowired
@@ -30,6 +31,11 @@ public class UserRest {
     @PostMapping("/resetPasswordByEmail")
     public DtoResponse resetPasswordByEmail(@RequestParam("email") String email){
         return userService.resetPasswordByEmail(email);
+    }
+
+    @PostMapping("/resetPassword")
+    public DtoResponse resetPasswordById(@RequestParam("oldpassword") String oldPassword, @RequestParam("newpassword") String newPassword){
+        return userService.resetPasswordByTempPassword(oldPassword, newPassword);
     }
 
 
