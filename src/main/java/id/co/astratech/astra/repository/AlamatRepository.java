@@ -1,7 +1,6 @@
 package id.co.astratech.astra.repository;
 
 import id.co.astratech.astra.model.Alamat;
-import id.co.astratech.astra.vo.AlamatVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
