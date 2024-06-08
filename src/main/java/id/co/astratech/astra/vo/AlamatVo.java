@@ -26,6 +26,8 @@ public class AlamatVo {
 
     private String status;
 
+    private Integer kocak;
+
     public AlamatVo(Alamat alamat) {
         this.idAlamat = alamat.getIdAlamat();
         this.idUser = alamat.getIdUser();
