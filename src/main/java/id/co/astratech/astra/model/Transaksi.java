@@ -23,6 +23,9 @@ public class Transaksi {
     @Column(name = "id_user")
     private Integer id_user;
 
+    @Column(name = "id_alamat")
+    private Integer id_alamat;
+
     @Column(name = "id_durasi")
     private Integer id_durasi;
 
