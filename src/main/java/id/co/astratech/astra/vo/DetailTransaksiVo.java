@@ -1,5 +1,6 @@
 package id.co.astratech.astra.vo;
 
+import id.co.astratech.astra.model.DetailTransaksi;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +12,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DetailTransaksiVo {
     private Integer idTransaksi;
-
     private Integer idLayanan;
-
     private Integer qty;
+
+    public DetailTransaksiVo(DetailTransaksi detailTransaksi) {
+        this.idTransaksi = detailTransaksi.getDetailTransaksiPK().getId_transaksi();
+        this.idLayanan = detailTransaksi.getDetailTransaksiPK().getId_layanan();
+        this.qty = detailTransaksi.getQty();
+    }
 }

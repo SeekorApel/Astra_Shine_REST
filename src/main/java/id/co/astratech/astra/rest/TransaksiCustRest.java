@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/transaksiCust")
+@RequestMapping("/transaksis")
 public class TransaksiCustRest {
     @Autowired
     private TransaksiCustService transaksiCustService;
@@ -30,5 +30,10 @@ public class TransaksiCustRest {
     @GetMapping("/getTransaksiCustSelesai")
     public DtoResponse getTransaksiCustSelesai(@RequestParam("idUser") Integer idUser){
         return transaksiCustService.getTransaksiSelesai(idUser);
+    }
+
+    @GetMapping("/getTransaksiDetail")
+    public DtoResponse getTransaksiDetail(@RequestParam("idTransaksi") Integer idTransaksi){
+        return transaksiCustService.getTransaksiDetail(idTransaksi);
     }
 }
