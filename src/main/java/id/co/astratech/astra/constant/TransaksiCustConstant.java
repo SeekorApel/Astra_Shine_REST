@@ -12,9 +12,11 @@ public class TransaksiCustConstant {
                     "WHERE id_user = :idUser AND status_pesanan = 'selesai' OR status_pesanan = 'batal'";
 
     public static final String qGetTransaksiDetail =
-            "SELECT * FROM tr_transaksi t " +
+            "SELECT td.qty, l.nama_layanan " +
+                    "FROM tr_transaksi t " +
                     "JOIN tr_transaksi_detail td on t.id_transaksi = td.id_transaksi " +
-                    "WHERE t.id_transaksi = :idTransaksi";
+                    "JOIN ms_layanan l on td.id_layanan = l.id_layanan " +
+                    "WHERE td.id_transaksi = :idTransaksi";
 
     public static final String qInsertTransaksi =
             "";
