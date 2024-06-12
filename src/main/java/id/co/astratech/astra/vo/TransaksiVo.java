@@ -27,6 +27,8 @@ public class TransaksiVo {
 
     private String statusPesanan;
 
+    private Integer ongkir;
+
     private Integer totalHarga;
 
     public TransaksiVo(Transaksi transaksi) {
@@ -37,6 +39,7 @@ public class TransaksiVo {
         this.tanggalPengiriman = transaksi.getTanggal_pengiriman();
         this.statusPembayaran = transaksi.getStatus_pembayaran();
         this.statusPesanan = transaksi.getStatus_pesanan();
+        this.ongkir = transaksi.getOngkir();
         this.totalHarga = transaksi.getTotal_harga();
     }
 }

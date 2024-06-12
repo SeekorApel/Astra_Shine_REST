@@ -38,6 +38,9 @@ public class Transaksi {
     @Column(name = "status_pesanan")
     private String status_pesanan;
 
+    @Column(name = "ongkir")
+    private Integer ongkir;
+
     @Column(name = "total_harga")
     private Integer total_harga;
 }
