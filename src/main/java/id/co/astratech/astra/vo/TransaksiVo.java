@@ -17,6 +17,8 @@ public class TransaksiVo {
 
     private Integer idUser;
 
+    private Integer idAlamat;
+
     private Integer idDurasi;
 
     private Date tanggalPesanan;
@@ -34,6 +36,7 @@ public class TransaksiVo {
     public TransaksiVo(Transaksi transaksi) {
         this.idTransaksi = transaksi.getId_transaksi();
         this.idUser = transaksi.getId_user();
+        this.idAlamat = transaksi.getId_alamat();
         this.idDurasi = transaksi.getId_durasi();
         this.tanggalPesanan = transaksi.getTanggal_pesanan();
         this.tanggalPengiriman = transaksi.getTanggal_pengiriman();
