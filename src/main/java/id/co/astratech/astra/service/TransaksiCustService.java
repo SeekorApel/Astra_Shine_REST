@@ -1,9 +1,11 @@
 //package id.co.astratech.astra.service;
 //
+//import id.co.astratech.astra.model.Transaksi;
 //import id.co.astratech.astra.model.User;
 //import id.co.astratech.astra.repository.TransaksiCustRepository;
 //import id.co.astratech.astra.repository.UserRepository;
 //import id.co.astratech.astra.response.DtoResponse;
+//import id.co.astratech.astra.vo.TransaksiVo;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Service;
 //
@@ -22,11 +24,11 @@
 //        User userDB = userRepository.findById(idUser).orElse(null);
 //
 //        if(userDB != null){
-//            Iterable<TransaksiCust> transaksiCusts = transaksiCustRepository.getTransaksiPickup(idUser);
-//            List<TransaksiCustVo> transaksiCustVos = new ArrayList<>();
+//            Iterable<Transaksi> transaksiCusts = transaksiCustRepository.getTransaksiPickup(idUser);
+//            List<TransaksiVo> transaksiCustVos = new ArrayList<>();
 //
-//            for (TransaksiCust item: transaksiCusts){
-//                TransaksiCustVo transaksiCustVo = new TransaksiCustVo(item);
+//            for (Transaksi item: transaksiCusts){
+//                TransaksiVo transaksiCustVo = new TransaksiVo(item);
 //                transaksiCustVos.add(transaksiCustVo);
 //            }
 //            return new DtoResponse(200, transaksiCustVos, "Data Di temukan");
@@ -41,11 +43,11 @@
 //        User userDB = userRepository.findById(idUser).orElse(null);
 //
 //        if(userDB != null){
-//            Iterable<TransaksiCust> transaksiCusts = transaksiCustRepository.getTransaksiProses(idUser);
-//            List<TransaksiCustVo> transaksiCustVos = new ArrayList<>();
+//            Iterable<Transaksi> transaksiCusts = transaksiCustRepository.getTransaksiProses(idUser);
+//            List<TransaksiVo> transaksiCustVos = new ArrayList<>();
 //
-//            for (TransaksiCust item: transaksiCusts){
-//                TransaksiCustVo transaksiCustVo = new TransaksiCustVo(item);
+//            for (Transaksi item: transaksiCusts){
+//                TransaksiVo transaksiCustVo = new TransaksiVo(item);
 //                transaksiCustVos.add(transaksiCustVo);
 //            }
 //            return new DtoResponse(200, transaksiCustVos, "Data Di temukan");
@@ -60,11 +62,11 @@
 //        User userDB = userRepository.findById(idUser).orElse(null);
 //
 //        if(userDB != null){
-//            Iterable<TransaksiCust> transaksiCusts = transaksiCustRepository.getTransaksiSelesai(idUser);
-//            List<TransaksiCustVo> transaksiCustVos = new ArrayList<>();
+//            Iterable<Transaksi> transaksiCusts = transaksiCustRepository.getTransaksiSelesai(idUser);
+//            List<TransaksiVo> transaksiCustVos = new ArrayList<>();
 //
-//            for (TransaksiCust item: transaksiCusts){
-//                TransaksiCustVo transaksiCustVo = new TransaksiCustVo(item);
+//            for (Transaksi item: transaksiCusts){
+//                TransaksiVo transaksiCustVo = new TransaksiVo(item);
 //                transaksiCustVos.add(transaksiCustVo);
 //            }
 //            return new DtoResponse(200, transaksiCustVos, "Data Di temukan");
