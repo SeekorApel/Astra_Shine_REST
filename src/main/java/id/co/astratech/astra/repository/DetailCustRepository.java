@@ -11,7 +11,7 @@ import java.util.List;
 import static id.co.astratech.astra.constant.TransaksiCustConstant.qGetTransaksiDetail;
 
 public interface DetailCustRepository extends JpaRepository<DetailTransaksi, DetailTransaksiPK> {
-@Query(value = qGetTransaksiDetail, nativeQuery = true)
+    @Query(value = qGetTransaksiDetail, nativeQuery = true)
     List<DetailTransaksi> getDetailTransaksi(@Param("idTransaksi") Integer idTransaksi);
 
 
