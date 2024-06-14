@@ -33,6 +33,8 @@ public class TransaksiVo {
 
     private Integer totalHarga;
 
+    private String catatan;
+
     public TransaksiVo(Transaksi transaksi) {
         this.idTransaksi = transaksi.getId_transaksi();
         this.idUser = transaksi.getId_user();
@@ -44,5 +46,6 @@ public class TransaksiVo {
         this.statusPesanan = transaksi.getStatus_pesanan();
         this.ongkir = transaksi.getOngkir();
         this.totalHarga = transaksi.getTotal_harga();
+        this.catatan = transaksi.getCatatan();
     }
 }
