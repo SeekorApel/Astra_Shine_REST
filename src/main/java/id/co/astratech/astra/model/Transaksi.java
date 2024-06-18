@@ -50,6 +50,4 @@ public class Transaksi {
     @Column(name = "total_harga")
     private Integer total_harga;
 
-    @Column(name = "catatan")
-    private String catatan;
 }
