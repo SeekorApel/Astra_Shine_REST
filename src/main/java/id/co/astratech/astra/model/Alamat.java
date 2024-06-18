@@ -34,6 +34,9 @@ public class Alamat {
     @Column(name = "latitude_alamat")
     private String latitude;
 
+    @Column(name = "jarak")
+    private Integer jarak;
+
     @Column(name = "status")
     private String status;
 

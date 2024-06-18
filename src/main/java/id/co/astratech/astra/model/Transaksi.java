@@ -29,6 +29,9 @@ public class Transaksi {
     @Column(name = "id_durasi")
     private Integer id_durasi;
 
+    @Column(name = "catatan")
+    private String catatan;
+
     @Column(name = "tanggal_pesanan")
     private Date tanggal_pesanan;
 
