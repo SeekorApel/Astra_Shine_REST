@@ -19,7 +19,7 @@ public class UserRest {
     }
 
     @GetMapping("/getUserByEmailAndPassword")
-    public DtoResponse getSkemas(@RequestParam("email") String email, @RequestParam("password") String password){
+    public DtoResponse getLogin(@RequestParam("email") String email, @RequestParam("password") String password){
         return userService.getUserByEmailAndPassword(email, password);
     }
 
@@ -34,8 +34,8 @@ public class UserRest {
     }
 
     @PostMapping("/resetPassword")
-    public DtoResponse resetPasswordById(@RequestBody User user){
-        return userService.resetPasswordByTempPassword(user);
+    public DtoResponse resetPasswordById(@RequestParam("idUser") Integer idUser, @RequestParam("password") String password){
+        return userService.resetPasswordByTempPassword(idUser, password);
     }
 
 

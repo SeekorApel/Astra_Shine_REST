@@ -37,7 +37,7 @@ public class UserService {
                 newData.setRole("Customer");
                 newData.setStatus("Aktif");
                 userRepository.save(newData);
-                return new DtoResponse(200,user,"Sukses Membuat Data");
+                return new DtoResponse(200,user,"Sukses Registrasi Akun");
             }
         }catch (Exception e){
             return new DtoResponse(500,user,"Terjadi Kesalahan saat menambah data " + e.getMessage());
@@ -48,7 +48,7 @@ public class UserService {
         User user = userRepository.findUserByEmailAndPassword(email, password);
         if(user != null){
             LoginVo loginVo = new LoginVo(user);
-            return new DtoResponse(200, loginVo, "Sukses");
+            return new DtoResponse(200, loginVo, "Login Sukses");
         }else {
             return new DtoResponse(404, null, "Data User tidak di temukan");
         }
@@ -87,15 +87,15 @@ public class UserService {
         return new DtoResponse(200, email, "Password baru sudah dikirim ke email Anda");
     }
 
-    public DtoResponse resetPasswordByTempPassword(User user){
-        User userDB = userRepository.findById(user.getIdUser()).orElse(null);
+    public DtoResponse resetPasswordByTempPassword(Integer idUser, String newPassword){
+        User userDB = userRepository.findById(idUser).orElse(null);
 
         if(userDB == null ){
             return new DtoResponse(404, null, "Data User tidak di temukan");
         }else {
-            User userChangePassword = new User();
-            BeanUtils.copyProperties(userDB, userChangePassword);
-            userChangePassword.setPassword(user.getPassword());
+            User user = new User();
+            BeanUtils.copyProperties(userDB, user);
+            user.setPassword(newPassword);
             userRepository.save(user);
             return new DtoResponse(200,null ,"Sukses mengubah password anda");
         }
