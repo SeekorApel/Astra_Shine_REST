@@ -19,7 +19,7 @@ public class TransaksiCustRest {
     public TransaksiCustRest(TransaksiCustService transaksiCustService){
         this.transaksiCustService = transaksiCustService;
     }
-
+    //status
     @GetMapping("/getAllTransaksiByStatus")
     public DtoResponse getAllTransaksiByStatus(@RequestParam("status") String status){
         return transaksiCustService.getAllTransaksiByStatus(status);
