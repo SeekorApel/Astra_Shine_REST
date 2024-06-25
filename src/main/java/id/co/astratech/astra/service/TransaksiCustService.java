@@ -31,6 +31,17 @@ public class TransaksiCustService {
     @Autowired
     private UserRepository userRepository;
 
+    public DtoResponse getAllTransaksiByStatus(String status){
+            Iterable<Transaksi> transaksis = transaksiCustRepository.getAllTransaksiByStatus(status);
+            List<TransaksiVo> transaksiVos = new ArrayList<>();
+
+            for (Transaksi item: transaksis){
+                TransaksiVo transaksiVo = new TransaksiVo(item);
+                transaksiVos.add(transaksiVo);
+            }
+            return new DtoResponse(200, transaksiVos, "Data Di temukan");
+    }
+
     public DtoResponse getTransaksiPickUp(Integer idUser){
         User userDB = userRepository.findById(idUser).orElse(null);
 

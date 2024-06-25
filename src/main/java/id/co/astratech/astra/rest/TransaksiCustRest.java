@@ -20,6 +20,11 @@ public class TransaksiCustRest {
         this.transaksiCustService = transaksiCustService;
     }
 
+    @GetMapping("/getAllTransaksiByStatus")
+    public DtoResponse getAllTransaksiByStatus(@RequestParam("status") String status){
+        return transaksiCustService.getAllTransaksiByStatus(status);
+    }
+
     @GetMapping("/getTransaksiCustPickUp")
     public DtoResponse getTransaksiCustPickUp(@RequestParam("idUser") Integer idUser){
         return transaksiCustService.getTransaksiPickUp(idUser);
