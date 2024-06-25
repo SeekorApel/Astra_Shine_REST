@@ -13,6 +13,9 @@ public interface TransaksiCustRepository extends JpaRepository<Transaksi, Intege
     @Query(value = qGetTransaksiPickup, nativeQuery = true)
     List<Transaksi> getTransaksiPickup(@Param("idUser") Integer idUser);
 
+    @Query(value = qGetAllTransaksiByStatus, nativeQuery = true)
+    List<Transaksi> getAllTransaksiByStatus(@Param("status") String status);
+
     @Query(value = qGetTransaksiProses, nativeQuery = true)
     List<Transaksi> getTransaksiProses(@Param("idUser") Integer idUser);
 

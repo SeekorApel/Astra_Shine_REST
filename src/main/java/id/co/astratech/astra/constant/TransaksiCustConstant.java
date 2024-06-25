@@ -1,6 +1,8 @@
 package id.co.astratech.astra.constant;
 
 public class TransaksiCustConstant {
+    public static final String qGetAllTransaksiByStatus =
+            "SELECT * FROM tr_transaksi WHERE status_pesanan = :status";
     public static final String qGetTransaksiPickup =
             "SELECT * FROM tr_transaksi WHERE id_user = :idUser AND status_pesanan = 'pick up'";
 
@@ -12,7 +14,7 @@ public class TransaksiCustConstant {
                     "WHERE id_user = :idUser AND status_pesanan = 'selesai' OR status_pesanan = 'batal'";
 
     public static final String qGetTransaksiDetail =
-            "SELECT td.qty, l.nama_layanan " +
+            "SELECT td.id_transaksi, td.id_layanan, td.qty " +
                     "FROM tr_transaksi t " +
                     "JOIN tr_transaksi_detail td on t.id_transaksi = td.id_transaksi " +
                     "JOIN ms_layanan l on td.id_layanan = l.id_layanan " +

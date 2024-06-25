@@ -1,10 +1,8 @@
 package id.co.astratech.astra.service;
 
-import id.co.astratech.astra.model.Alamat;
-import id.co.astratech.astra.model.DetailTransaksi;
-import id.co.astratech.astra.model.Transaksi;
-import id.co.astratech.astra.model.User;
+import id.co.astratech.astra.model.*;
 import id.co.astratech.astra.repository.DetailCustRepository;
+import id.co.astratech.astra.repository.DurasiRepository;
 import id.co.astratech.astra.repository.TransaksiCustRepository;
 import id.co.astratech.astra.repository.UserRepository;
 import id.co.astratech.astra.response.DtoResponse;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +26,21 @@ public class TransaksiCustService {
     private DetailCustRepository detailCustRepository;
 
     @Autowired
+    private DurasiRepository durasiRepository;
+
+    @Autowired
     private UserRepository userRepository;
+
+    public DtoResponse getAllTransaksiByStatus(String status){
+            Iterable<Transaksi> transaksis = transaksiCustRepository.getAllTransaksiByStatus(status);
+            List<TransaksiVo> transaksiVos = new ArrayList<>();
+
+            for (Transaksi item: transaksis){
+                TransaksiVo transaksiVo = new TransaksiVo(item);
+                transaksiVos.add(transaksiVo);
+            }
+            return new DtoResponse(200, transaksiVos, "Data Di temukan");
+    }
 
     public DtoResponse getTransaksiPickUp(Integer idUser){
         User userDB = userRepository.findById(idUser).orElse(null);
@@ -105,19 +118,37 @@ public class TransaksiCustService {
         }
     }
 
-    public DtoResponse saveTransaksiCust(Transaksi transaksi){
+    public DtoResponse saveTransaksiCust(TransaksiVo transaksiVo){
         try {
-            User existingUser = userRepository.findById(transaksi.getId_user()).orElse(null);
+            User existingUser = userRepository.findById(transaksiVo.getIdUser()).orElse(null);
+            Durasi existingDurasi = durasiRepository.findById(transaksiVo.getIdDurasi()).orElse(null);
 
-            if(existingUser != null){
+            if(existingUser != null & existingDurasi != null){
                 Transaksi data = new Transaksi();
+
+                Integer lamaDurasi = existingDurasi.getLamaDurasi();
+                Integer hargaDurasi = existingDurasi.getHargaDurasi();
+
+                Date tanggalPesanan = transaksiVo.getTanggalPesanan();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(tanggalPesanan);
+                // Menambahkan jumlah hari dari durasi
+                cal.add(Calendar.DAY_OF_MONTH, lamaDurasi);
+                // Mendapatkan tanggal baru setelah penambahan hari
+                Date tanggalBaru = cal.getTime();
+
+                data.setId_transaksi(transaksiVo.getIdTransaksi());
+                data.setId_durasi(transaksiVo.getIdDurasi());
+                data.setId_alamat(transaksiVo.getIdAlamat());
+                data.setId_user(transaksiVo.getIdUser());
+                data.setTanggal_pesanan(tanggalPesanan);
                 data.setStatus_pesanan("Pick Up");
                 data.setStatus_pembayaran("Belum Bayar");
-                data.setTotal_harga(0);
-
-                Date tanggalPesanan = transaksi.getTanggal_pesanan();
-                transaksiCustRepository.save(data);
-                return new DtoResponse(200, transaksi, "Sukses Membuat Data");
+                data.setTanggal_pengiriman(tanggalBaru);
+                data.setTotal_harga(hargaDurasi);
+                System.out.println("kk");
+                Transaksi saveData = transaksiCustRepository.save(data);
+                return new DtoResponse(200, transaksiVo, "Sukses Membuat Data");
             }else {
                 return new DtoResponse(404, null, "Alamat Tidak di temukan");
             }
