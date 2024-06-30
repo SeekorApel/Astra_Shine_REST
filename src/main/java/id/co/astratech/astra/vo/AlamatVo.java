@@ -24,6 +24,8 @@ public class AlamatVo {
 
     private String latitude;
 
+    private Integer jarak;
+
     private String status;
 
     public AlamatVo(Alamat alamat) {
@@ -32,6 +34,7 @@ public class AlamatVo {
         this.namaAlamat = alamat.getNamaAlamat();
         this.alamat = alamat.getAlamat();
         this.langtitude = alamat.getLangtitude();
+        this.jarak = alamat.getJarak();
         this.latitude = alamat.getLatitude();
     }
 }
