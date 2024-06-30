@@ -43,25 +43,22 @@ public class AlamatService {
     }
 
     public DtoResponse getAllAlamatByStatusAndIdUser(Integer idUser){
-        User userDB = userRepository.findById(idUser).orElse(null);
-
-        if(userDB != null){
-            String status = "Aktif";
-            Iterable<Alamat> alamats = alamatRepository.getAlamatByIdUser(idUser, status);
-            List<AlamatVo> alamatVos = new ArrayList<>();
-
+        String status = "Aktif";
+        Iterable<Alamat> alamats = alamatRepository.getAlamatByIdUser(idUser, status);
+        List<AlamatVo> alamatVos = new ArrayList<>();
+        if(alamats != null){
             for (Alamat item: alamats){
                 AlamatVo alamatVo = new AlamatVo(item);
                 alamatVo.setStatus(alamatVo.getStatus() == null ? "" : alamatVo.getStatus());
                 alamatVos.add(alamatVo);
             }
             return new DtoResponse(200, alamatVos, "Data Di temukan");
-        }else if(userDB == null) {
-            return new DtoResponse(404, null, "Data User tidak di temukan");
+
+        }else if(alamats == null){
+            return new DtoResponse(404, null, "Data tidak di temukan");
         }else {
             return new DtoResponse(500, null, "Terjadi Kesalahan saat mengambil data");
         }
-
     }
 
     public DtoResponse deleteAlamat(Integer idAlamat){
