@@ -1,10 +1,7 @@
 package id.co.astratech.astra.service;
 
 import id.co.astratech.astra.model.*;
-import id.co.astratech.astra.repository.DetailCustRepository;
-import id.co.astratech.astra.repository.DurasiRepository;
-import id.co.astratech.astra.repository.TransaksiCustRepository;
-import id.co.astratech.astra.repository.UserRepository;
+import id.co.astratech.astra.repository.*;
 import id.co.astratech.astra.response.DtoResponse;
 import id.co.astratech.astra.vo.DetailTransaksiVo;
 import id.co.astratech.astra.vo.TransaksiVo;
@@ -29,6 +26,9 @@ public class TransaksiCustService {
     private DurasiRepository durasiRepository;
 
     @Autowired
+    private AlamatRepository alamatRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     public DtoResponse getAllTransaksiByStatus(String status){
@@ -37,6 +37,15 @@ public class TransaksiCustService {
 
             for (Transaksi item: transaksis){
                 TransaksiVo transaksiVo = new TransaksiVo(item);
+                User user = userRepository.findById(transaksiVo.getIdUser()).orElse(null);
+                transaksiVo.setNamaUser(user.getNamaUser());
+                transaksiVo.setNoTelp(user.getNoTelp());
+                Durasi durasi = durasiRepository.findById(transaksiVo.getIdDurasi()).orElse(null);
+                transaksiVo.setNamaDurasi(durasi.getNamaDurasi());
+                Alamat alamat = alamatRepository.findById(transaksiVo.getIdAlamat()).orElse(null);
+                transaksiVo.setNamaAlamat(alamat.getNamaAlamat());
+                transaksiVo.setLongitude(alamat.getLangtitude());
+                transaksiVo.setLatitude(alamat.getLatitude());
                 transaksiVos.add(transaksiVo);
             }
             return new DtoResponse(200, transaksiVos, "Data Di temukan");
@@ -51,6 +60,11 @@ public class TransaksiCustService {
 
             for (Transaksi item: transaksis){
                 TransaksiVo transaksiVo = new TransaksiVo(item);
+                User user = userRepository.findById(transaksiVo.getIdUser()).orElse(null);
+                transaksiVo.setNamaUser(user.getNamaUser());
+                transaksiVo.setNoTelp(user.getNoTelp());
+                Durasi durasi = durasiRepository.findById(transaksiVo.getIdDurasi()).orElse(null);
+                transaksiVo.setNamaDurasi(durasi.getNamaDurasi());
                 transaksiVos.add(transaksiVo);
             }
             return new DtoResponse(200, transaksiVos, "Data Di temukan");
@@ -155,6 +169,27 @@ public class TransaksiCustService {
 
         }catch (Exception e){
             return new DtoResponse(500, null,"Terjadi saat menambahkan data " + e.getMessage());
+        }
+    }
+
+    public DtoResponse batalkanTrsKurir(Integer idTransaksi, String catatan) {
+        try {
+            // Mengambil data yang ada dari database
+            Transaksi existingTransaksi = transaksiCustRepository.findById(idTransaksi).orElse(null);
+
+            // Periksa apakah ada di dalam database atau tidak
+            if (existingTransaksi == null) {
+                return new DtoResponse(404, null, "Data Transaksi tidak ditemukan");
+            }
+
+            // Lakukan Update sesuai dengan field yang terupdate
+            existingTransaksi.setCatatan(catatan);
+            Transaksi updatedTransaksi = transaksiCustRepository.save(existingTransaksi);
+
+            return new DtoResponse(200, updatedTransaksi, "Data transaksi berhasil diupdate");
+
+        } catch (Exception e) {
+            return new DtoResponse(500, null, "Gagal mengupdate data transaksi");
         }
     }
 }
