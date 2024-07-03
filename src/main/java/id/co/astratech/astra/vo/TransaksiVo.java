@@ -1,6 +1,7 @@
 package id.co.astratech.astra.vo;
 
 import id.co.astratech.astra.model.Transaksi;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,21 @@ public class TransaksiVo {
 
     private Integer idUser;
 
+    private String namaUser;
+
+    private String noTelp;
+
+    private String longitude;
+
+    private String latitude;
+
     private Integer idAlamat;
 
+    private String namaAlamat;
+
     private Integer idDurasi;
+
+    private String namaDurasi;
 
     private Date tanggalPesanan;
 

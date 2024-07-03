@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/transaksis")
+@RequestMapping("/transaksi")
 public class TransaksiCustRest {
     @Autowired
     private TransaksiCustService transaksiCustService;
@@ -55,5 +55,10 @@ public class TransaksiCustRest {
         }
 
         return response;
+    }
+
+    @PostMapping("/batalkanTrsKurir/{idTransaksi}/")
+    public DtoResponse batalkanTrsKurir(@PathVariable Integer idTransaksi, @RequestParam("catatan") String catatan) {
+        return transaksiCustService.batalkanTrsKurir(idTransaksi, catatan);
     }
 }
