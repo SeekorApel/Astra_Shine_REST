@@ -24,6 +24,6 @@ public class DetailTransaksi  implements Serializable {
     private DetailTransaksiPK detailTransaksiPK;
 
     @Column(name = "qty")
-    private Integer qty;
+    private Double qty;
 
 }
