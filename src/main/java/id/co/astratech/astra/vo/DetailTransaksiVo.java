@@ -16,7 +16,7 @@ public class DetailTransaksiVo {
     private Integer idTransaksi;
     private Integer idLayanan;
     private String namaLayanan;
-    private Integer qty;
+    private Double qty;
 
     public DetailTransaksiVo(DetailTransaksi detailTransaksi) {
         this.idTransaksi = detailTransaksi.getDetailTransaksiPK().getId_transaksi();
