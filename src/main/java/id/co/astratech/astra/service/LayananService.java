@@ -1,6 +1,7 @@
 package id.co.astratech.astra.service;
 
 import id.co.astratech.astra.model.Alamat;
+import id.co.astratech.astra.model.Durasi;
 import id.co.astratech.astra.model.Layanan;
 import id.co.astratech.astra.model.User;
 import id.co.astratech.astra.repository.LayananRepository;
@@ -33,15 +34,12 @@ public class LayananService {
     public DtoResponse getLayananById(Integer idLayanan){
         Iterable<Layanan> layanan = layananRepository.getLayananById(idLayanan);
         List<LayananVo> layananVos = new ArrayList<>();
-        if(layanan != null){
-            for (Layanan item: layanan){
-                LayananVo layananVo = new LayananVo(item);
-                layananVos.add(layananVo);
-            }
-            return new DtoResponse(200, layananVos, "Sukses");
-        }else {
-            return new DtoResponse(404, null, "Data Layanan tidak di temukan");
+
+        for (Layanan item: layanan){
+            LayananVo layananVo = new LayananVo(item);
+            layananVos.add(layananVo);
         }
+        return new DtoResponse(200, layananVos, "Data Di temukan");
 
     }
 }

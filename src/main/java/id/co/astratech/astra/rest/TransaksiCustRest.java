@@ -25,19 +25,14 @@ public class TransaksiCustRest {
         return transaksiCustService.getAllTransaksiByStatus(status);
     }
 
-    @GetMapping("/getTransaksiCustPickUp")
-    public DtoResponse getTransaksiCustPickUp(@RequestParam("idUser") Integer idUser){
-        return transaksiCustService.getTransaksiPickUp(idUser);
+    @GetMapping("/getTransaksiByIdAndStatus")
+    public DtoResponse getTransaksiByIdandStatus(@RequestParam("idUser") Integer idUser, @RequestParam("status") String status){
+        return transaksiCustService.getTransaksiByIdAndStatus(idUser, status);
     }
 
-    @GetMapping("/getTransaksiCustProses")
-    public DtoResponse getTransaksiCustProses(@RequestParam("idUser") Integer idUser){
-        return transaksiCustService.getTransaksiProses(idUser);
-    }
-
-    @GetMapping("/getTransaksiCustSelesai")
-    public DtoResponse getTransaksiCustSelesai(@RequestParam("idUser") Integer idUser){
-        return transaksiCustService.getTransaksiSelesai(idUser);
+    @GetMapping("/getTransaksiById")
+    public DtoResponse getTransaksiById(@RequestParam("idUser") Integer idUser){
+        return transaksiCustService.getTransaksiById(idUser);
     }
 
     @GetMapping("/getTransaksiDetail")
