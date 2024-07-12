@@ -28,17 +28,15 @@ public class DurasiService {
         return new DtoResponse(200, durasiVos, "Data Di temukan");
     }
     public DtoResponse getDurasiById(Integer idDurasi){
+
         Iterable<Durasi> durasi = durasiRepository.getDurasiById(idDurasi);
         List<DurasiVo> durasiVos = new ArrayList<>();
-        if(durasi != null){
-            for (Durasi item: durasi){
-                DurasiVo durasiVo = new DurasiVo(item);
-                durasiVos.add(durasiVo);
-            }
-            return new DtoResponse(200, durasiVos, "Sukses");
-        }else {
-            return new DtoResponse(404, null, "Data Layanan tidak di temukan");
+
+        for (Durasi item: durasi){
+            DurasiVo durasiVo = new DurasiVo(item);
+            durasiVos.add(durasiVo);
         }
+        return new DtoResponse(200, durasiVos, "Data Di temukan");
 
     }
 }

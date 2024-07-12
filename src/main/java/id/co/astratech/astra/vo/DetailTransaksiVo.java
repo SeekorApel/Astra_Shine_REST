@@ -21,6 +21,7 @@ public class DetailTransaksiVo {
     public DetailTransaksiVo(DetailTransaksi detailTransaksi) {
         this.idTransaksi = detailTransaksi.getDetailTransaksiPK().getId_transaksi();
         this.idLayanan = detailTransaksi.getDetailTransaksiPK().getId_layanan();
+        this.namaLayanan = detailTransaksi.getNama_layanan();
         this.qty = detailTransaksi.getQty();
     }
 }

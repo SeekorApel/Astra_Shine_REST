@@ -51,35 +51,11 @@ public class TransaksiCustService {
             return new DtoResponse(200, transaksiVos, "Data Di temukan");
     }
 
-    public DtoResponse getTransaksiPickUp(Integer idUser){
+    public DtoResponse getTransaksiByIdAndStatus(Integer idUser, String status){
         User userDB = userRepository.findById(idUser).orElse(null);
 
         if(userDB != null){
-            Iterable<Transaksi> transaksis = transaksiCustRepository.getTransaksiPickup(idUser);
-            List<TransaksiVo> transaksiVos = new ArrayList<>();
-
-            for (Transaksi item: transaksis){
-                TransaksiVo transaksiVo = new TransaksiVo(item);
-                User user = userRepository.findById(transaksiVo.getIdUser()).orElse(null);
-                transaksiVo.setNamaUser(user.getNamaUser());
-                transaksiVo.setNoTelp(user.getNoTelp());
-                Durasi durasi = durasiRepository.findById(transaksiVo.getIdDurasi()).orElse(null);
-                transaksiVo.setNamaDurasi(durasi.getNamaDurasi());
-                transaksiVos.add(transaksiVo);
-            }
-            return new DtoResponse(200, transaksiVos, "Data Di temukan");
-        }else if(userDB == null) {
-            return new DtoResponse(404, null, "Data User tidak di temukan");
-        }else {
-            return new DtoResponse(500, null, "Terjadi Kesalahan saat mengambil data");
-        }
-    }
-
-    public DtoResponse getTransaksiProses(Integer idUser){
-        User userDB = userRepository.findById(idUser).orElse(null);
-
-        if(userDB != null){
-            Iterable<Transaksi> transaksis = transaksiCustRepository.getTransaksiProses(idUser);
+            Iterable<Transaksi> transaksis = transaksiCustRepository.getTransaksiByIdAndStatus(idUser, status);
             List<TransaksiVo> transaksiVos = new ArrayList<>();
 
             for (Transaksi item: transaksis){
@@ -94,11 +70,11 @@ public class TransaksiCustService {
         }
     }
 
-    public DtoResponse getTransaksiSelesai(Integer idUser){
+    public DtoResponse getTransaksiById(Integer idUser){
         User userDB = userRepository.findById(idUser).orElse(null);
 
         if(userDB != null){
-            Iterable<Transaksi> transaksis = transaksiCustRepository.getTransaksiSelesai(idUser);
+            Iterable<Transaksi> transaksis = transaksiCustRepository.getTransaksiById(idUser);
             List<TransaksiVo> transaksiVos = new ArrayList<>();
 
             for (Transaksi item: transaksis){

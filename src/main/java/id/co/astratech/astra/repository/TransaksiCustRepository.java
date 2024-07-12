@@ -8,19 +8,17 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 import static id.co.astratech.astra.constant.TransaksiCustConstant.*;
+import static id.co.astratech.astra.constant.TransaksiCustConstant.qGetTransaksiById;
 
 public interface TransaksiCustRepository extends JpaRepository<Transaksi, Integer> {
-    @Query(value = qGetTransaksiPickup, nativeQuery = true)
-    List<Transaksi> getTransaksiPickup(@Param("idUser") Integer idUser);
-
     @Query(value = qGetAllTransaksiByStatus, nativeQuery = true)
     List<Transaksi> getAllTransaksiByStatus(@Param("status") String status);
 
-    @Query(value = qGetTransaksiProses, nativeQuery = true)
-    List<Transaksi> getTransaksiProses(@Param("idUser") Integer idUser);
+    @Query(value = qGetTransaksiByIdAndStatus, nativeQuery = true)
+    List<Transaksi> getTransaksiByIdAndStatus(@Param("idUser") Integer idUser, @Param("status") String status);
 
-    @Query(value = qGetTransaksiSelesai, nativeQuery = true)
-    List<Transaksi> getTransaksiSelesai(@Param("idUser") Integer idUser);
+    @Query(value = qGetTransaksiById, nativeQuery = true)
+    List<Transaksi> getTransaksiById(@Param("idUser") Integer idUser);
 
     @Query(value = qGetTransaksiDetail, nativeQuery = true)
     List<Transaksi> getTransaksiDetail(@Param("idTransaksi") Integer idTransaksi);
