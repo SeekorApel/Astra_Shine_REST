@@ -5,7 +5,6 @@ import id.co.astratech.astra.repository.*;
 import id.co.astratech.astra.response.DtoResponse;
 import id.co.astratech.astra.vo.DetailTransaksiVo;
 import id.co.astratech.astra.vo.TransaksiVo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,7 @@ public class TransaksiCustService {
                 transaksiVo.setNamaDurasi(durasi.getNamaDurasi());
                 Alamat alamat = alamatRepository.findById(transaksiVo.getIdAlamat()).orElse(null);
                 transaksiVo.setNamaAlamat(alamat.getNamaAlamat());
-                transaksiVo.setLongitude(alamat.getLangtitude());
+                transaksiVo.setLongitude(alamat.getLongtitude());
                 transaksiVo.setLatitude(alamat.getLatitude());
                 transaksiVos.add(transaksiVo);
             }

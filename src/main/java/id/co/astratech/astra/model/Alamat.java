@@ -1,13 +1,9 @@
 package id.co.astratech.astra.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -28,14 +24,14 @@ public class Alamat {
     @Column(name = "alamat")
     private String alamat;
 
-    @Column(name = "langtitude_alamat")
-    private Double langtitude;
-
     @Column(name = "latitude_alamat")
     private Double latitude;
 
+    @Column(name = "longtitude_alamat")
+    private Double longtitude;
+
     @Column(name = "jarak")
-    private Integer jarak;
+    private Double jarak;
 
     @Column(name = "status")
     private String status;

@@ -20,11 +20,11 @@ public class AlamatVo {
 
     private String alamat;
 
-    private Double langtitude;
-
     private Double latitude;
 
-    private Integer jarak;
+    private Double longtitude;
+
+    private Double jarak;
 
     private String status;
 
@@ -33,8 +33,8 @@ public class AlamatVo {
         this.idUser = alamat.getIdUser();
         this.namaAlamat = alamat.getNamaAlamat();
         this.alamat = alamat.getAlamat();
-        this.langtitude = alamat.getLangtitude();
-        this.jarak = alamat.getJarak();
         this.latitude = alamat.getLatitude();
+        this.longtitude = alamat.getLongtitude();
+        this.jarak = alamat.getJarak();
     }
 }
