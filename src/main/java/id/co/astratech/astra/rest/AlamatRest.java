@@ -18,6 +18,11 @@ public class AlamatRest {
         this.alamatService = alamatService;
     }
 
+    @GetMapping("/getAlamatLaundry")
+    public DtoResponse getAlamatLaundry(){
+        return alamatService.getAlamatLaundry();
+    }
+
     @GetMapping("/getAlamatUser")
     public DtoResponse getAllAlamatUserByStatus(@RequestParam("idUser") Integer idUser){
         return alamatService.getAllAlamatByStatusAndIdUser(idUser);

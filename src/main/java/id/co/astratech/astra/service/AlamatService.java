@@ -22,6 +22,16 @@ public class AlamatService {
     @Autowired
     private UserRepository userRepository;
 
+    public DtoResponse getAlamatLaundry(){
+        Integer idAlamat = 1;
+        Alamat alamatDb = alamatRepository.findById(idAlamat).orElse(null);
+        if(alamatDb != null){
+            return new DtoResponse(200, alamatDb, "Data Di temukan");
+        }else {
+            return new DtoResponse(500, null, "Data tidak di temukan");
+        }
+    }
+
     public DtoResponse saveAlamat(Alamat alamat){
         try {
             User existingUser = userRepository.findById(alamat.getIdUser()).orElse(null);
