@@ -22,9 +22,9 @@ public class TransaksiVo {
 
     private String noTelp;
 
-    private String longitude;
+    private Double longitude;
 
-    private String latitude;
+    private Double latitude;
 
     private Integer idAlamat;
 
