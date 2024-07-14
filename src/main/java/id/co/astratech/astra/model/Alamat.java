@@ -29,10 +29,10 @@ public class Alamat {
     private String alamat;
 
     @Column(name = "langtitude_alamat")
-    private String langtitude;
+    private Double langtitude;
 
     @Column(name = "latitude_alamat")
-    private String latitude;
+    private Double latitude;
 
     @Column(name = "jarak")
     private Integer jarak;

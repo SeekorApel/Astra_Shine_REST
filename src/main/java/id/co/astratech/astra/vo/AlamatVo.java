@@ -20,9 +20,9 @@ public class AlamatVo {
 
     private String alamat;
 
-    private String langtitude;
+    private Double langtitude;
 
-    private String latitude;
+    private Double latitude;
 
     private Integer jarak;
 
