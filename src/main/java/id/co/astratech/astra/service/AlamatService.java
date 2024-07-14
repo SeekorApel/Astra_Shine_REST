@@ -52,6 +52,20 @@ public class AlamatService {
 
     }
 
+    public DtoResponse updateAlamat(Alamat updateAlamat){
+        try {
+            Alamat alamatDb = alamatRepository.findById(updateAlamat.getIdAlamat()).orElse(null);
+            if(alamatDb != null){
+                alamatRepository.save(updateAlamat);
+                return new DtoResponse(200, updateAlamat, "Sukses mengupdate data");
+            }else {
+                return new DtoResponse(404, null, "Tidak dapat mengupdate Data");
+            }
+        }catch (Exception e){
+            return new DtoResponse(500, null,"Terjadi saat merubah data " + e.getMessage());
+        }
+    }
+
     public DtoResponse getAllAlamatByStatusAndIdUser(Integer idUser){
         String status = "Aktif";
         Iterable<Alamat> alamats = alamatRepository.getAlamatByIdUser(idUser, status);

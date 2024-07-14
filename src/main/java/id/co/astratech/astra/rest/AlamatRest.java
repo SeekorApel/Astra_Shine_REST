@@ -28,6 +28,11 @@ public class AlamatRest {
         return alamatService.getAllAlamatByStatusAndIdUser(idUser);
     }
 
+    @PostMapping("/updateAlamatUser")
+    public DtoResponse updateAlamat(@RequestBody Alamat updateAlamat){
+        return alamatService.updateAlamat(updateAlamat);
+    }
+
     @PostMapping("/saveAlamatUser")
     public DtoResponse saveAlamat(@RequestBody Alamat alamat){
         return alamatService.saveAlamat(alamat);
