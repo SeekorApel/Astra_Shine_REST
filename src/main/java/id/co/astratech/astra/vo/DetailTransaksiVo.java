@@ -15,13 +15,11 @@ import java.util.List;
 public class DetailTransaksiVo {
     private Integer idTransaksi;
     private Integer idLayanan;
-    private String namaLayanan;
     private Double qty;
 
     public DetailTransaksiVo(DetailTransaksi detailTransaksi) {
         this.idTransaksi = detailTransaksi.getDetailTransaksiPK().getId_transaksi();
         this.idLayanan = detailTransaksi.getDetailTransaksiPK().getId_layanan();
-        this.namaLayanan = detailTransaksi.getNama_layanan();
         this.qty = detailTransaksi.getQty();
     }
 }

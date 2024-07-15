@@ -56,4 +56,9 @@ public class TransaksiCustRest {
     public DtoResponse batalkanTrsKurir(@PathVariable Integer idTransaksi, @RequestParam("catatan") String catatan) {
         return transaksiCustService.batalkanTrsKurir(idTransaksi, catatan);
     }
+
+    @GetMapping("/getTotalHarga")
+    public DtoResponse getTotalHarga(@RequestParam("idTransaksi") Integer idTransaksi){
+        return transaksiCustService.getTotalHarga(idTransaksi);
+    }
 }
