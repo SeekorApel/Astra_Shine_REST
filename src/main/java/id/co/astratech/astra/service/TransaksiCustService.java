@@ -30,6 +30,9 @@ public class TransaksiCustService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private LayananRepository layananRepository;
+
     public DtoResponse getAllTransaksiByStatus(String status){
             Iterable<Transaksi> transaksis = transaksiCustRepository.getAllTransaksiByStatus(status);
             List<TransaksiVo> transaksiVos = new ArrayList<>();
@@ -97,6 +100,8 @@ public class TransaksiCustService {
 
             for (DetailTransaksi item: detailTransaksis){
                 DetailTransaksiVo detailTransaksiVo = new DetailTransaksiVo(item);
+                Layanan layanan = layananRepository.findById(detailTransaksiVo.getIdLayanan()).orElse(null);
+                detailTransaksiVo.setNamaLayanan(layanan.getNamaLayanan());
                 detailTransaksiVos.add(detailTransaksiVo);
             }
             return new DtoResponse(200, detailTransaksiVos, "Data Di temukan");
@@ -138,6 +143,26 @@ public class TransaksiCustService {
                 System.out.println("kk");
                 Transaksi saveData = transaksiCustRepository.save(data);
                 return new DtoResponse(200, transaksiVo, "Sukses Membuat Data");
+            }else {
+                return new DtoResponse(404, null, "Alamat Tidak di temukan");
+            }
+
+        }catch (Exception e){
+            return new DtoResponse(500, null,"Terjadi saat menambahkan data " + e.getMessage());
+        }
+    }
+
+    public DtoResponse saveTotal(Integer idTransaksi,Integer total){
+        try {
+            Transaksi existingTransaksiId = transaksiCustRepository.findById(idTransaksi).orElse(null);
+            List<TransaksiVo> TransaksiVos = new ArrayList<>();
+            if(existingTransaksiId != null){
+                existingTransaksiId.setTotal_harga(total);
+                TransaksiVo TransaksiVo = new TransaksiVo(existingTransaksiId);
+
+                TransaksiVos.add(TransaksiVo);
+                transaksiCustRepository.save(existingTransaksiId);
+                return new DtoResponse(200, TransaksiVos, "Sukses Membuat Data");
             }else {
                 return new DtoResponse(404, null, "Alamat Tidak di temukan");
             }

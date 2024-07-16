@@ -23,4 +23,6 @@ public interface TransaksiCustRepository extends JpaRepository<Transaksi, Intege
     @Query(value = qGetTransaksiDetail, nativeQuery = true)
     List<Transaksi> getTransaksiDetail(@Param("idTransaksi") Integer idTransaksi);
 
+
+
 }
