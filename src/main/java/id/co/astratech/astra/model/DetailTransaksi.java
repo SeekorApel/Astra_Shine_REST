@@ -23,9 +23,6 @@ public class DetailTransaksi  implements Serializable {
     @EmbeddedId
     private DetailTransaksiPK detailTransaksiPK;
 
-    @Column(name = "nama_layanan")
-    private String nama_layanan;
-
     @Column(name = "qty")
     private Double qty;
 

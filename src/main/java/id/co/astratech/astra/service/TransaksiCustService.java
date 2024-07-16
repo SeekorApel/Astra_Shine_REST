@@ -167,4 +167,23 @@ public class TransaksiCustService {
             return new DtoResponse(500, null, "Gagal mengupdate data transaksi");
         }
     }
+
+    public DtoResponse getTotalHarga(Integer idTransaksi){
+        Transaksi transaksiDB = transaksiCustRepository.findById(idTransaksi).orElse(null);
+
+        if(transaksiDB != null){
+            List<Transaksi> transaksis = transaksiCustRepository.getTotalHarga(idTransaksi);
+            List<TransaksiVo> transaksiVos = new ArrayList<>();
+
+            for (Transaksi item: transaksis){
+                TransaksiVo transaksiVo = new TransaksiVo(item);
+                transaksiVos.add(transaksiVo);
+            }
+            return new DtoResponse(200, transaksiVos, "Data Di temukan");
+        }else if(transaksiDB == null) {
+            return new DtoResponse(404, null, "Data User tidak di temukan");
+        }else {
+            return new DtoResponse(500, null, "Terjadi Kesalahan saat mengambil data");
+        }
+    }
 }
