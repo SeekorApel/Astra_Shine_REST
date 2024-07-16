@@ -48,7 +48,6 @@ public class OwnerService {
             for (DetailTransaksi item: detailTransaksis){
                 DetailTransaksiVo detailTransaksiVo = new DetailTransaksiVo(item);
                 Layanan layanan = layananRepository.findById(detailTransaksiVo.getIdLayanan()).orElse(null);
-                detailTransaksiVo.setNamaLayanan(layanan.getNamaLayanan());
                 detailTransaksiVos.add(detailTransaksiVo);
             }
             return new DtoResponse(200, detailTransaksiVos, "Data Di temukan");

@@ -15,7 +15,6 @@ import java.util.List;
 public class DetailTransaksiVo {
     private Integer idTransaksi;
     private Integer idLayanan;
-    private String namaLayanan;
     private Double qty;
 
     public DetailTransaksiVo(DetailTransaksi detailTransaksi) {
