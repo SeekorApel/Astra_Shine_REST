@@ -5,7 +5,8 @@ public class TransaksiCustConstant {
             "SELECT * FROM tr_transaksi WHERE status_pesanan = :status";
 
     public static final String qGetTransaksiByIdAndStatus =
-            "SELECT * FROM tr_transaksi WHERE id_user = :idUser AND status_pesanan = :status";
+            "SELECT * FROM tr_transaksi WHERE id_user = :idUser AND status_pesanan = :status\n" +
+                    "order by id_transaksi desc";
 
     public static final String qGetTransaksiById =
             "SELECT * FROM tr_transaksi WHERE id_user = :idUser";

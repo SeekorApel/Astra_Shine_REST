@@ -8,10 +8,8 @@ import id.co.astratech.astra.vo.TransaksiVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class TransaksiCustService {
@@ -59,6 +57,15 @@ public class TransaksiCustService {
 
             for (Transaksi item: transaksis){
                 TransaksiVo transaksiVo = new TransaksiVo(item);
+//                Date tanggalPesanan = item.getTanggal_pesanan();
+//                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.getDefault());
+//                SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+//                try{
+//                    String tanggalString = outputFormat.format(inputFormat.parse(tanggalPesanan.toString()));
+//                    transaksiVo.setTanggalPesanan(tanggalString);
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
                 transaksiVos.add(transaksiVo);
             }
             return new DtoResponse(200, transaksiVos, "Data Di temukan");
@@ -78,6 +85,15 @@ public class TransaksiCustService {
 
             for (Transaksi item: transaksis){
                 TransaksiVo transaksiVo = new TransaksiVo(item);
+//                Date tanggalPesanan = item.getTanggal_pesanan();
+//                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.getDefault());
+//                SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+//                try{
+//                    String tanggalString = outputFormat.format(inputFormat.parse(tanggalPesanan.toString()));
+//                    transaksiVo.setTanggalPesanan(tanggalString);
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
                 transaksiVos.add(transaksiVo);
             }
             return new DtoResponse(200, transaksiVos, "Data Di temukan");
@@ -118,9 +134,8 @@ public class TransaksiCustService {
                 Integer lamaDurasi = existingDurasi.getLamaDurasi();
                 Integer hargaDurasi = existingDurasi.getHargaDurasi();
 
-                Date tanggalPesanan = transaksiVo.getTanggalPesanan();
                 Calendar cal = Calendar.getInstance();
-                cal.setTime(tanggalPesanan);
+                cal.setTime(transaksiVo.getTanggalPesanan());
                 // Menambahkan jumlah hari dari durasi
                 cal.add(Calendar.DAY_OF_MONTH, lamaDurasi);
                 // Mendapatkan tanggal baru setelah penambahan hari
@@ -130,12 +145,12 @@ public class TransaksiCustService {
                 data.setId_durasi(transaksiVo.getIdDurasi());
                 data.setId_alamat(transaksiVo.getIdAlamat());
                 data.setId_user(transaksiVo.getIdUser());
-                data.setTanggal_pesanan(tanggalPesanan);
+                data.setTanggal_pesanan(transaksiVo.getTanggalPesanan());
                 data.setStatus_pesanan("Pick Up");
                 data.setStatus_pembayaran("Belum Bayar");
                 data.setTanggal_pengiriman(tanggalBaru);
-                data.setTotal_harga(hargaDurasi);
-                System.out.println("kk");
+                data.setOngkir(transaksiVo.getOngkir());
+                data.setTotal_harga(transaksiVo.getOngkir());
                 Transaksi saveData = transaksiCustRepository.save(data);
                 return new DtoResponse(200, transaksiVo, "Sukses Membuat Data");
             }else {

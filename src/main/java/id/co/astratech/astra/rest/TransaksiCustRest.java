@@ -41,15 +41,8 @@ public class TransaksiCustRest {
     }
 
     @PostMapping("/saveTransaksi")
-    public DtoResponse saveTransaksi(@RequestBody List<TransaksiVo> transaksiList){
-        DtoResponse response = new DtoResponse();
-
-        // Iterasi melalui setiap TransaksiVo dalam daftar
-        for (TransaksiVo transaksi : transaksiList) {
-            DtoResponse individualResponse = transaksiCustService.saveTransaksiCust(transaksi);
-        }
-
-        return response;
+    public DtoResponse saveTransaksi(@RequestBody TransaksiVo transaksi){
+        return transaksiCustService.saveTransaksiCust(transaksi);
     }
 
     @PostMapping("/batalkanTrsKurir/{idTransaksi}/")
