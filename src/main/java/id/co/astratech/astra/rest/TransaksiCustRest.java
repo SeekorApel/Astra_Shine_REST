@@ -40,6 +40,11 @@ public class TransaksiCustRest {
         return transaksiCustService.getTransaksiDetail(idTransaksi);
     }
 
+    @PostMapping("/saveTotal")
+    public DtoResponse saveTotal(@RequestParam("idTransaksi") Integer idTransaksi,@RequestParam("total") Integer total){
+        return transaksiCustService.saveTotal(idTransaksi,total);
+    }
+
     @PostMapping("/saveTransaksi")
     public DtoResponse saveTransaksi(@RequestBody TransaksiVo transaksi){
         return transaksiCustService.saveTransaksiCust(transaksi);
