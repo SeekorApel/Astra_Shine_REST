@@ -4,6 +4,7 @@ import id.co.astratech.astra.model.*;
 import id.co.astratech.astra.repository.*;
 import id.co.astratech.astra.response.DtoResponse;
 import id.co.astratech.astra.vo.DetailTransaksiVo;
+import id.co.astratech.astra.vo.LayananVo;
 import id.co.astratech.astra.vo.TransaksiVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -116,6 +117,8 @@ public class TransaksiCustService {
 
             for (DetailTransaksi item: detailTransaksis){
                 DetailTransaksiVo detailTransaksiVo = new DetailTransaksiVo(item);
+                Layanan layanan = layananRepository.findById(detailTransaksiVo.getIdLayanan()).orElse(null);
+                detailTransaksiVo.setNamaLayanan(layanan.getNamaLayanan());
                 detailTransaksiVos.add(detailTransaksiVo);
             }
             return new DtoResponse(200, detailTransaksiVos, "Data Di temukan");
@@ -222,6 +225,50 @@ public class TransaksiCustService {
             return new DtoResponse(404, null, "Data User tidak di temukan");
         }else {
             return new DtoResponse(500, null, "Terjadi Kesalahan saat mengambil data");
+        }
+    }
+    public DtoResponse updatePembayaran(Integer idTransaksi) {
+        try {
+            // Mengambil data yang ada dari database
+            Transaksi existingTransaksi = transaksiCustRepository.findById(idTransaksi).orElse(null);
+
+
+            // Periksa apakah ada di dalam database atau tidak
+            if (existingTransaksi == null) {
+                return new DtoResponse(404, null, "Data Transaksi tidak ditemukan");
+            }
+
+            // Lakukan Update sesuai dengan field yang terupdate
+            existingTransaksi.setStatus_pembayaran("Sudah Bayar");
+            Transaksi updatedTransaksi = transaksiCustRepository.save(existingTransaksi);
+            TransaksiVo transaksiVo = new TransaksiVo(updatedTransaksi);
+
+            return new DtoResponse(200, transaksiVo, "Data transaksi berhasil diupdate");
+
+        } catch (Exception e) {
+            return new DtoResponse(500, null, "Gagal mengupdate data transaksi");
+        }
+    }
+    public DtoResponse updateStatus(Integer idTransaksi) {
+        try {
+            // Mengambil data yang ada dari database
+            Transaksi existingTransaksi = transaksiCustRepository.findById(idTransaksi).orElse(null);
+
+
+            // Periksa apakah ada di dalam database atau tidak
+            if (existingTransaksi == null) {
+                return new DtoResponse(404, null, "Data Transaksi tidak ditemukan");
+            }
+
+            // Lakukan Update sesuai dengan field yang terupdate
+            existingTransaksi.setStatus_pesanan("Selesai");
+            Transaksi updatedTransaksi = transaksiCustRepository.save(existingTransaksi);
+            TransaksiVo transaksiVo = new TransaksiVo(updatedTransaksi);
+
+            return new DtoResponse(200, transaksiVo, "Data transaksi berhasil diupdate");
+
+        } catch (Exception e) {
+            return new DtoResponse(500, null, "Gagal mengupdate data transaksi");
         }
     }
 }
