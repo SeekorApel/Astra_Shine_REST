@@ -50,6 +50,16 @@ public class TransaksiCustRest {
         return transaksiCustService.saveTransaksiCust(transaksi);
     }
 
+    @PostMapping("/updatePembayaran/{idTransaksi}/")
+    public DtoResponse updatePembayaran(@PathVariable Integer idTransaksi) {
+        return transaksiCustService.updatePembayaran(idTransaksi);
+    }
+
+    @PostMapping("/updateStatus/{idTransaksi}/")
+    public DtoResponse updateStatus(@PathVariable Integer idTransaksi) {
+        return transaksiCustService.updateStatus(idTransaksi);
+    }
+
     @PostMapping("/batalkanTrsKurir/{idTransaksi}/")
     public DtoResponse batalkanTrsKurir(@PathVariable Integer idTransaksi, @RequestParam("catatan") String catatan) {
         return transaksiCustService.batalkanTrsKurir(idTransaksi, catatan);
