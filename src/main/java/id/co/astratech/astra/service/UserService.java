@@ -4,12 +4,21 @@ import id.co.astratech.astra.model.User;
 import id.co.astratech.astra.repository.UserRepository;
 import id.co.astratech.astra.response.DtoResponse;
 import id.co.astratech.astra.vo.LoginVo;
+import org.json.JSONException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import org.json.JSONObject;
 import java.security.SecureRandom;
+import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class UserService {
@@ -23,11 +32,19 @@ public class UserService {
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final SecureRandom RANDOM = new SecureRandom();
 
+    private static final String API_KEY = "0WZ4K5RX1ZSCRJIONUZ9"; // API key Anda
+    private static final String API_URL = "https://api.mailboxvalidator.com/v1/validation/single?key=" + API_KEY + "&email=";
+
     public DtoResponse registerUser(User user){
         try {
+            int statusEmail = checkExistingEmail(user.getEmail());
+            if(statusEmail == 0){
+                return new DtoResponse(500, null, "Email Tidak Valid");
+            }
+
             String existingEmail = checkEmail(user.getEmail());
             if(user.getEmail().equals(existingEmail)){
-                return new DtoResponse(409, existingEmail, "Email Sudah di Gunakan");
+                return new DtoResponse(500, null, "Email Sudah di Gunakan");
             }else{
                 User newData = new User();
                 newData.setEmail(user.getEmail());
@@ -58,7 +75,6 @@ public class UserService {
         return userRepository.getExistingEmail(submittedEmail);
     }
 
-
     // Method untuk membuat string acak
     public static String generateRandomString(int length) {
         StringBuilder sb = new StringBuilder(length);
@@ -69,6 +85,11 @@ public class UserService {
     }
 
     public DtoResponse resetPasswordByEmail(String email){
+
+        int statusEmail = checkExistingEmail(email);
+        if(statusEmail == 0){
+            return new DtoResponse(500, null, "Email Tidak Valid");
+        }
 
         //Generate Temp Password
         String temporaryPassword = generateRandomString(12);
@@ -83,7 +104,11 @@ public class UserService {
         //Mengupdate data password baru
         userRepository.save(user);
 
-        createEmail(email, "Reset Password", "Password sementara Anda adalah: " + temporaryPassword);
+        CompletableFuture.runAsync(() -> {
+            String bodyEmail = createBodyEmail(temporaryPassword, user.getNamaUser(), user.getEmail());
+            createEmail(email, "Reset Password", bodyEmail);
+        });
+
         return new DtoResponse(200, email, "Password baru sudah dikirim ke email Anda");
     }
 
@@ -102,6 +127,7 @@ public class UserService {
 
     }
 
+    @Async
     public void createEmail(String toEmail,
                           String subject,
                           String body){
@@ -113,6 +139,53 @@ public class UserService {
         message.setSubject(subject);
 
         mailSender.send(message);
+    }
+
+    private String createBodyEmail(String newPassword, String namaUser, String emailUser) {
+        return String.format("Halo %s,\n\n"
+                        + "Kami telah menerima permintaan untuk mengatur ulang kata sandi akun Anda. Berikut adalah informasi kata sandi baru Anda:\n\n"
+                        + "Email Pengguna: %s\n"
+                        + "Kata Sandi Baru: %s\n\n"
+                        + "Silakan gunakan kata sandi ini untuk masuk ke akun Anda. Demi keamanan akun Anda, harap segera mengganti kata sandi setelah login pertama.",
+                namaUser, emailUser, newPassword);
+    }
+
+    public static int checkExistingEmail(String email) {
+        return isEmailExists(email) ? 1 : 0;
+    }
+
+    private static boolean isEmailExists(String email) {
+        try {
+            String urlString = API_URL + email;
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.connect();
+
+            // Check if the request was successful
+            int responseCode = conn.getResponseCode();
+            if (responseCode != 200) {
+                return false; // Jika tidak berhasil, anggap email tidak ada
+            }
+
+            // Parse response
+            Scanner sc = new Scanner(url.openStream());
+            StringBuilder inline = new StringBuilder();
+            while (sc.hasNext()) {
+                inline.append(sc.nextLine());
+            }
+            sc.close();
+
+            // Convert the string response to JSON
+            JSONObject jsonResponse = new JSONObject(inline.toString());
+
+            // Check the status
+            return jsonResponse.optBoolean("is_verified", false);
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
