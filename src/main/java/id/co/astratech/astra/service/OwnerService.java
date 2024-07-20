@@ -74,6 +74,7 @@ public class OwnerService {
 
             for (Transaksi trsansaksi: trs){
                 TransaksiVo transaksiVo = new TransaksiVo(trsansaksi);
+
                 User user = userRepository.findById(transaksiVo.getIdUser()).orElse(null);
                 transaksiVo.setNamaUser(user.getNamaUser());
                 transaksiVo.setNoTelp(user.getNoTelp());
@@ -81,11 +82,35 @@ public class OwnerService {
                 transaksiVo.setNamaDurasi(durasi.getNamaDurasi());
                 Alamat alamat = alamatRepository.findById(transaksiVo.getIdAlamat()).orElse(null);
                 transaksiVo.setNamaAlamat(alamat.getNamaAlamat());
+
                 transaksiVos.add(transaksiVo);
             }
             return new DtoResponse(200, transaksiVos, "Data Di temukan");
         }else if(transaksiDB == null) {
             return new DtoResponse(404, null, "Data User tidak di temukan");
+        }else {
+            return new DtoResponse(500, null, "Terjadi Kesalahan saat mengambil data");
+        }
+    }
+
+    public DtoResponse getDtlById(Integer idTransaksi){
+        Transaksi transaksiDB = ownerRepository.findById(idTransaksi).orElse(null);
+
+        if(transaksiDB != null){
+            List<DetailTransaksi> detailTransaksis = detailCustRepository.getDetailTransaksi(idTransaksi);
+            List<DetailTransaksiVo> detailTransaksiVos = new ArrayList<>();
+
+            for (DetailTransaksi item: detailTransaksis){
+                DetailTransaksiVo detailTransaksiVo = new DetailTransaksiVo(item);
+
+                Layanan layanan = layananRepository.findById(detailTransaksiVo.getIdLayanan()).orElse(null);
+                detailTransaksiVo.setNamaLayanan(layanan.getNamaLayanan());
+
+                detailTransaksiVos.add(detailTransaksiVo);
+            }
+            return new DtoResponse(200, detailTransaksiVos, "Data Di temukan");
+        }else if(transaksiDB == null) {
+            return new DtoResponse(404, null, "Data Transaksi tidak di temukan");
         }else {
             return new DtoResponse(500, null, "Terjadi Kesalahan saat mengambil data");
         }

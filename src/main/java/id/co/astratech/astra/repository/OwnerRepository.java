@@ -1,5 +1,6 @@
 package id.co.astratech.astra.repository;
 
+import id.co.astratech.astra.model.DetailTransaksi;
 import id.co.astratech.astra.model.Layanan;
 import id.co.astratech.astra.model.Transaksi;
 import org.springframework.data.jpa.repository.JpaRepository;
