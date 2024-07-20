@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import org.json.JSONObject;
+
 import java.security.SecureRandom;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
@@ -35,43 +37,45 @@ public class UserService {
     private static final String API_KEY = "0WZ4K5RX1ZSCRJIONUZ9"; // API key Anda
     private static final String API_URL = "https://api.mailboxvalidator.com/v1/validation/single?key=" + API_KEY + "&email=";
 
-    public DtoResponse registerUser(User user){
+    public DtoResponse registerUser(User user) {
         try {
+
             int statusEmail = checkExistingEmail(user.getEmail());
-            if(statusEmail == 0){
+            if (statusEmail == 0) {
                 return new DtoResponse(500, null, "Email Tidak Valid");
             }
 
             String existingEmail = checkEmail(user.getEmail());
-            if(user.getEmail().equals(existingEmail)){
+            if (user.getEmail().equals(existingEmail)) {
                 return new DtoResponse(500, null, "Email Sudah di Gunakan");
-            }else{
-                User newData = new User();
-                newData.setEmail(user.getEmail());
-                newData.setPassword(user.getPassword());
-                newData.setNamaUser(user.getNamaUser());
-                newData.setNoTelp(user.getNoTelp());
-                newData.setRole("Customer");
-                newData.setStatus("Aktif");
-                userRepository.save(newData);
-                return new DtoResponse(200,user,"Sukses Registrasi Akun");
             }
-        }catch (Exception e){
-            return new DtoResponse(500,user,"Terjadi Kesalahan saat menambah data " + e.getMessage());
+
+            User newData = new User();
+            newData.setEmail(user.getEmail());
+            newData.setPassword(user.getPassword());
+            newData.setNamaUser(user.getNamaUser());
+            newData.setNoTelp(user.getNoTelp());
+            newData.setRole("Customer");
+            newData.setStatus("Aktif");
+            userRepository.save(newData);
+            return new DtoResponse(200, user, "Sukses Registrasi Akun");
+
+        } catch (Exception e) {
+            return new DtoResponse(500, user, "Terjadi Kesalahan saat menambah data " + e.getMessage());
         }
     }
 
-    public DtoResponse getUserByEmailAndPassword(String email, String password){
+    public DtoResponse getUserByEmailAndPassword(String email, String password) {
         User user = userRepository.findUserByEmailAndPassword(email, password);
-        if(user != null){
+        if (user != null) {
             LoginVo loginVo = new LoginVo(user);
             return new DtoResponse(200, loginVo, "Login Sukses");
-        }else {
+        } else {
             return new DtoResponse(404, null, "Data User tidak di temukan");
         }
     }
 
-    public String checkEmail(String submittedEmail){
+    public String checkEmail(String submittedEmail) {
         return userRepository.getExistingEmail(submittedEmail);
     }
 
@@ -84,10 +88,10 @@ public class UserService {
         return sb.toString();
     }
 
-    public DtoResponse resetPasswordByEmail(String email){
+    public DtoResponse resetPasswordByEmail(String email) {
 
         int statusEmail = checkExistingEmail(email);
-        if(statusEmail == 0){
+        if (statusEmail == 0) {
             return new DtoResponse(500, null, "Email Tidak Valid");
         }
 
@@ -112,25 +116,25 @@ public class UserService {
         return new DtoResponse(200, email, "Password baru sudah dikirim ke email Anda");
     }
 
-    public DtoResponse resetPasswordByTempPassword(Integer idUser, String newPassword){
+    public DtoResponse resetPasswordByTempPassword(Integer idUser, String newPassword) {
         User userDB = userRepository.findById(idUser).orElse(null);
 
-        if(userDB == null ){
+        if (userDB == null) {
             return new DtoResponse(404, null, "Data User tidak di temukan");
-        }else {
+        } else {
             User user = new User();
             BeanUtils.copyProperties(userDB, user);
             user.setPassword(newPassword);
             userRepository.save(user);
-            return new DtoResponse(200,null ,"Sukses mengubah password anda");
+            return new DtoResponse(200, null, "Sukses mengubah password anda");
         }
 
     }
 
     @Async
     public void createEmail(String toEmail,
-                          String subject,
-                          String body){
+                            String subject,
+                            String body) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("sisteminformasiperwalian@gmail.com");
