@@ -24,13 +24,11 @@ public class DetailTransaksiRest {
     }
     @PostMapping("/saveDetail")
     public DtoResponse saveDetailTransaksi(@RequestBody List<DetailTransaksiVo> detail){
-        DtoResponse response = null;
 
         for (DetailTransaksiVo item : detail) {
             detailService.saveDetailTransaksi(item);
         }
-
-        return response;
+        return new DtoResponse(200, detail, "Berhasil Menyimpan data");
     }
     @PostMapping("/statusPembayaran")
     public DtoResponse statusPembayaran(@RequestParam("idTransaksi") Integer idTransaksi){

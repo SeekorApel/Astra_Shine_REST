@@ -49,6 +49,11 @@ public class TransaksiCustService {
                 transaksiVo.setLatitude(alamat.getLatitude());
                 transaksiVos.add(transaksiVo);
             }
+            if ("Pick Up".equalsIgnoreCase(status)) {
+                transaksiVos.sort(Comparator.comparing(TransaksiVo::getTanggalPesanan));
+            } else if ("Antar".equalsIgnoreCase(status)) {
+                transaksiVos.sort(Comparator.comparing(TransaksiVo::getTanggalPengiriman));
+            }
             return new DtoResponse(200, transaksiVos, "Data Di temukan");
     }
 
