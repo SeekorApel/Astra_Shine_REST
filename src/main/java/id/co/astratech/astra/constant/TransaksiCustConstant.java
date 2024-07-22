@@ -50,4 +50,8 @@ public class TransaksiCustConstant {
                     "    t.status_pesanan, \n" +
                     "    t.status_pembayaran, \n" +
                     "    t.ongkir;\n";
+
+    public static final String qGetTrsByIdTrans =
+            "SELECT * FROM tr_transaksi " +
+                    "WHERE id_transaksi = :idTransaksi";
 }
