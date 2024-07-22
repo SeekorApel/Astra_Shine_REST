@@ -28,6 +28,16 @@ public class OwnerRest {
         return ownerService.getDetailTransaksi(idTransaksi);
     }
 
+    @GetMapping("/getTrsById")
+    public DtoResponse getTrsById(@RequestParam("idTransaksi") Integer idTransaksi){
+        return ownerService.getTrsById(idTransaksi);
+    }
+
+    @GetMapping("/getDtlById")
+    public DtoResponse getDtlById(@RequestParam("idTransaksi") Integer idTransaksi){
+        return ownerService.getDtlById(idTransaksi);
+    }
+
     @PostMapping("/updateTransaksi/{idTransaksi}/")
     public DtoResponse updateStatusPesanan(@PathVariable Integer idTransaksi, @RequestParam("status_pesanan") String status_pesanan) {
         return ownerService.updateTransaksi(idTransaksi, status_pesanan);
