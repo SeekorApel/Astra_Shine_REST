@@ -116,19 +116,23 @@ public class UserService {
         return new DtoResponse(200, email, "Password baru sudah dikirim ke email Anda");
     }
 
-    public DtoResponse resetPasswordByTempPassword(Integer idUser, String newPassword) {
+    public DtoResponse resetPasswordByTempPassword(Integer idUser, String newPassword, String oldPassword) {
         User userDB = userRepository.findById(idUser).orElse(null);
-
-        if (userDB == null) {
-            return new DtoResponse(404, null, "Data User tidak di temukan");
-        } else {
+        try {
+            if (userDB != null) {
+                if (!userDB.getPassword().equals(oldPassword)) {
+                    return new DtoResponse(500, userDB, "Password lama tidak sesuai");
+                }
+            }
             User user = new User();
             BeanUtils.copyProperties(userDB, user);
             user.setPassword(newPassword);
-            userRepository.save(user);
-            return new DtoResponse(200, null, "Sukses mengubah password anda");
-        }
+            User updatePassword = userRepository.save(user);
+            return new DtoResponse(200, updatePassword, "Sukses mengubah password anda");
 
+        } catch (Exception e) {
+            return new DtoResponse(500, null, e.getMessage());
+        }
     }
 
     @Async
