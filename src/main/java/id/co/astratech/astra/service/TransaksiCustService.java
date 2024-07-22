@@ -122,6 +122,8 @@ public class TransaksiCustService {
 
             for (DetailTransaksi item: detailTransaksis){
                 DetailTransaksiVo detailTransaksiVo = new DetailTransaksiVo(item);
+                Layanan layanan = layananRepository.findById(detailTransaksiVo.getIdLayanan()).orElse(null);
+                detailTransaksiVo.setNamaLayanan(layanan.getNamaLayanan());
                 detailTransaksiVos.add(detailTransaksiVo);
             }
             return new DtoResponse(200, detailTransaksiVos, "Data Di temukan");
@@ -131,6 +133,7 @@ public class TransaksiCustService {
             return new DtoResponse(500, null, "Terjadi Kesalahan saat mengambil data");
         }
     }
+    
 
     public DtoResponse saveTransaksiCust(TransaksiVo transaksiVo){
         try {
