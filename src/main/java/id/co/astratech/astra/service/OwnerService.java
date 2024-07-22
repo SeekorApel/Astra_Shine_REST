@@ -1,11 +1,7 @@
 package id.co.astratech.astra.service;
 
-import id.co.astratech.astra.model.DetailTransaksi;
-import id.co.astratech.astra.model.Layanan;
-import id.co.astratech.astra.model.Transaksi;
-import id.co.astratech.astra.repository.DetailCustRepository;
-import id.co.astratech.astra.repository.LayananRepository;
-import id.co.astratech.astra.repository.OwnerRepository;
+import id.co.astratech.astra.model.*;
+import id.co.astratech.astra.repository.*;
 import id.co.astratech.astra.response.DtoResponse;
 import id.co.astratech.astra.vo.DetailTransaksiVo;
 import id.co.astratech.astra.vo.TransaksiVo;
@@ -27,12 +23,23 @@ public class OwnerService {
     @Autowired
     private LayananRepository layananRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private DurasiRepository durasiRepository;
+
+    @Autowired
+    private AlamatRepository alamatRepository;
+
     public DtoResponse getAllTrsOwner(){
         Iterable<Transaksi> durasi = ownerRepository.findAll();
         List<TransaksiVo> transaksiVos = new ArrayList<>();
 
         for (Transaksi trsansaksi: durasi){
             TransaksiVo transaksiVo = new TransaksiVo(trsansaksi);
+            User user = userRepository.findById(transaksiVo.getIdUser()).orElse(null);
+            transaksiVo.setNamaUser(user.getNamaUser());
             transaksiVos.add(transaksiVo);
         }
         return new DtoResponse(200, transaksiVos, "Data Di temukan");
@@ -53,6 +60,57 @@ public class OwnerService {
             return new DtoResponse(200, detailTransaksiVos, "Data Di temukan");
         }else if(transaksiDB == null) {
             return new DtoResponse(404, null, "Data User tidak di temukan");
+        }else {
+            return new DtoResponse(500, null, "Terjadi Kesalahan saat mengambil data");
+        }
+    }
+
+    public DtoResponse getTrsById(Integer idTransaksi){
+        Transaksi transaksiDB = ownerRepository.findById(idTransaksi).orElse(null);
+
+        if(transaksiDB != null){
+            Iterable<Transaksi> trs = ownerRepository.getTrsById(idTransaksi);
+            List<TransaksiVo> transaksiVos = new ArrayList<>();
+
+            for (Transaksi trsansaksi: trs){
+                TransaksiVo transaksiVo = new TransaksiVo(trsansaksi);
+
+                User user = userRepository.findById(transaksiVo.getIdUser()).orElse(null);
+                transaksiVo.setNamaUser(user.getNamaUser());
+                transaksiVo.setNoTelp(user.getNoTelp());
+                Durasi durasi = durasiRepository.findById(transaksiVo.getIdDurasi()).orElse(null);
+                transaksiVo.setNamaDurasi(durasi.getNamaDurasi());
+                Alamat alamat = alamatRepository.findById(transaksiVo.getIdAlamat()).orElse(null);
+                transaksiVo.setNamaAlamat(alamat.getNamaAlamat());
+
+                transaksiVos.add(transaksiVo);
+            }
+            return new DtoResponse(200, transaksiVos, "Data Di temukan");
+        }else if(transaksiDB == null) {
+            return new DtoResponse(404, null, "Data User tidak di temukan");
+        }else {
+            return new DtoResponse(500, null, "Terjadi Kesalahan saat mengambil data");
+        }
+    }
+
+    public DtoResponse getDtlById(Integer idTransaksi){
+        Transaksi transaksiDB = ownerRepository.findById(idTransaksi).orElse(null);
+
+        if(transaksiDB != null){
+            List<DetailTransaksi> detailTransaksis = detailCustRepository.getDetailTransaksi(idTransaksi);
+            List<DetailTransaksiVo> detailTransaksiVos = new ArrayList<>();
+
+            for (DetailTransaksi item: detailTransaksis){
+                DetailTransaksiVo detailTransaksiVo = new DetailTransaksiVo(item);
+
+                Layanan layanan = layananRepository.findById(detailTransaksiVo.getIdLayanan()).orElse(null);
+                detailTransaksiVo.setNamaLayanan(layanan.getNamaLayanan());
+
+                detailTransaksiVos.add(detailTransaksiVo);
+            }
+            return new DtoResponse(200, detailTransaksiVos, "Data Di temukan");
+        }else if(transaksiDB == null) {
+            return new DtoResponse(404, null, "Data Transaksi tidak di temukan");
         }else {
             return new DtoResponse(500, null, "Terjadi Kesalahan saat mengambil data");
         }
