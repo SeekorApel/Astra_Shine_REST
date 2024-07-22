@@ -34,8 +34,8 @@ public class UserRest {
     }
 
     @PostMapping("/resetPassword")
-    public DtoResponse resetPasswordById(@RequestParam("idUser") Integer idUser, @RequestParam("password") String password){
-        return userService.resetPasswordByTempPassword(idUser, password);
+    public DtoResponse resetPasswordById(@RequestParam("idUser") Integer idUser, @RequestParam("newPassword") String newPassword, @RequestParam("oldPassword") String oldPassword){
+        return userService.resetPasswordByTempPassword(idUser, newPassword, oldPassword);
     }
 
 
