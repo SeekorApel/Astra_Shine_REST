@@ -205,6 +205,8 @@ public class TransaksiCustService {
 
             // Lakukan Update sesuai dengan field yang terupdate
             existingTransaksi.setCatatan(catatan);
+            existingTransaksi.setStatus_pesanan("Proses");
+
             Transaksi updatedTransaksi = transaksiCustRepository.save(existingTransaksi);
 
             return new DtoResponse(200, updatedTransaksi, "Data transaksi berhasil diupdate");
