@@ -113,7 +113,7 @@ public class UserService {
             createEmail(email, "Reset Password", bodyEmail);
         });
 
-        return new DtoResponse(200, email, "Password baru sudah dikirim ke email Anda");
+        return new DtoResponse(200, null, "Password baru sudah dikirim ke email Anda");
     }
 
     public DtoResponse resetPasswordByTempPassword(Integer idUser, String newPassword, String oldPassword) {
